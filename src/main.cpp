@@ -15,7 +15,7 @@
 // create a built-in mama duck
 MamaDuck duck;
 
-DuckDisplay* display = NULL;
+DuckDisplay* display = nullptr;
 
 // LORA RF CONFIG
 #define LORA_FREQ 915.0 // Frequency Range. Set for US Region 915.0Mhz
@@ -33,24 +33,21 @@ auto timer = timer_create_default();
 const int INTERVAL_MS = 60000;
 int counter = 1;
 bool sendData(const byte* buffer, int length);
-
 void setup() {
     // The Device ID must be unique and 8 bytes long. Typically the ID is stored
     // in a secure nvram, or provided to the duck during provisioning/registration
-    std::string deviceId("RELAY001");
-    std::vector<byte> devId;
-    devId.insert(devId.end(), deviceId.begin(), deviceId.end());
+    std::array<uint8_t,8> deviceId = {'R', 'E', 'L', 'A', 'Y', '0','0', '1'}; // MUST be 8 bytes and unique from other ducks
 
 
     //Set the Device ID
-    duck.setDeviceId(devId);
+    duck.setDeviceId(deviceId);
     // initialize the serial component with the hardware supported baudrate
     duck.setupSerial(115200);
     // initialize the LoRa radio with specific settings. This will overwrites settings defined in the CDP config file cdpcfg.h
     duck.setupRadio(LORA_FREQ, LORA_CS_PIN, LORA_RST_PIN, LORA_DIO0_PIN, LORA_DIO1_PIN, LORA_TXPOWER);
 
     display = DuckDisplay::getInstance();
-    display->setupDisplay(duck.getType(), devId);
+    display->setupDisplay(duck.getType(), deviceId);
     // we are done
     display->showDefaultScreen();
 
