@@ -32,7 +32,7 @@ auto timer = timer_create_default();
 // for sending the counter message
 const int INTERVAL_MS = 60000;
 int counter = 1;
-bool sendData(const byte* buffer, int length)
+bool sendData(const byte* buffer, int length);
 
 void setup() {
     // The Device ID must be unique and 8 bytes long. Typically the ID is stored
